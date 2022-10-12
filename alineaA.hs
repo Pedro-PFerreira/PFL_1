@@ -21,11 +21,6 @@ addSignal (x:xs)
                  | otherwise = ["+", x] : addSignal xs
 
 
-{-              
-firstCase:: [String] -> [[String]]
-firstCase [] = []
-firstCase (x:xs) = if x /= "-" then ["+", x] : addSignal xs else addSignal xs
--}
 {-
 -- Ultimate solution for splitting
 splitOnAnyOf :: Eq a => [[a]] -> [a] -> [[a]]
