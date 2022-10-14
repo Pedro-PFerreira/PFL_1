@@ -1,8 +1,7 @@
 import Data.List.Split
 
 import Data.Char
-
-input = "x^2 + 2*y + 5*z + y - 7*y^2"
+input = "3*x^2 + 2*y + 5*z + y - 7*y^2 + 4*x*y^2"
 
 vars = splitOn " " input
 
@@ -15,11 +14,18 @@ removeFirst (x:xs) = xs
 
 addSignal::[String] -> [[String]]
 addSignal [] = []
-addSignal (x:xs) 
+addSignal (x:xs)
                 | x == "+" = [x, head xs] : addSignal (removeFirst xs)
-                 | x == "-" = [x, head xs] : addSignal (removeFirst xs)
-                 | otherwise = ["+", x] : addSignal xs
+                | x == "-" = [x, head xs] : addSignal (removeFirst xs)
+                | otherwise = ["+", x] : addSignal xs
 
+res = addSignal lista
+
+multiplyrem :: [[String]] -> [[String]]
+multiplyrem = map (filter (/= "*"))
+
+
+example = [["+", "3", "x", "2"], ["-", "4", "x", "2"], ["+", "3", "x", "1"]]
 
 {-
 -- Ultimate solution for splitting
