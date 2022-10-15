@@ -1,6 +1,6 @@
-import Data.List
+module AddPoly where 
 
-a = [(("+", 3), [("x", 2)]), (("+", 6), [("y", 1), ("z", 1)])]
+import Data.List
 
 type Coef = Integer
 type Incognit = [(String, Integer)]
@@ -25,16 +25,3 @@ addPolynom (x:xs) y = if findIncognit x y /= (0, [("", 0)]) then let z = addMono
                                                                  in z : addPolynom xs (delete (findIncognit x y) y)
                                                             else
                                                                 x : addPolynom xs y
-
-x = (2, [("x", 2), ("y", 3)])
-
-y = [(7, [("y", 4)]),(-3, [("x", 2), ("y", 3)])]
-
-z= [(7, [("y", 4)])]
-
-test= findIncognit x y
-
-test1 = findIncognit x z
-
-
-whatif = addPolynom [x] y
