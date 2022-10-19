@@ -1,6 +1,5 @@
 module AddPoly where 
-
-import Data.List
+import Data.List(delete)
 
 type Coef = Integer
 type Incognit = [(String, Integer)]
@@ -9,7 +8,6 @@ type Monom = (Coef, Incognit)
 
 compareIncognit :: Monom -> Monom -> Bool
 compareIncognit x y = snd x == snd y
-
 
 findIncognit :: Monom -> [Monom] -> Monom
 findIncognit x [] = (0, [("", 0)])

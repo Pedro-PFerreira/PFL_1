@@ -1,12 +1,12 @@
 import AddPoly
 
-
 equalIncognit :: Monom -> Monom -> Monom
 equalIncognit a b = (fst a * fst b, sumExp (snd a) (snd b))
 
 -- Incognit = [(String, Integer)]
 sumExp :: Incognit -> Incognit -> Incognit
 sumExp a [] = a
+sumExp [] a = a
 sumExp (a:as) (b:bs) = if (fst a == fst b) then [(fst a, snd a + snd b)] ++ sumExp as bs else
     [(fst a, snd a), (fst b, snd b)] ++ sumExp as bs
 
