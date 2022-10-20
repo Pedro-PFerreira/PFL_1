@@ -1,12 +1,5 @@
 import AddPoly
 
-{-
-type Coef = Integer
-type Incognit = [(String, Integer)]
-
-type Monom = (Coef, Incognit) = (Integer, [(String, Integer)])
--}
-
 findvar::String-> Incognit -> Incognit
 findvar x = filter (\n->fst n == x)
 
@@ -16,13 +9,6 @@ findvar' x (y:ys) = if findvar x (snd y) /= [] then [(fst y,findvar x (snd y))] 
 
 findOthervar::String-> Incognit -> Incognit
 findOthervar x = filter (\n->fst n /= x)
-
-{-
-findOthervar'::String-> [Monom] -> [Monom]
-findOthervar' x [] = []
-findOthervar' x (y:ys) = if findOthervar x (snd y) /= [] then [(fst y,findOthervar x (snd y))] else findOthervar' x ys
--}
-
 
 y = [(4, [("x", 2)]), (5, [("z", 3)]), (5, [("y", 3)])]
 
@@ -35,7 +21,6 @@ xy = [(1, [("x",1), ("y", 1)])] --xy
 xy' = (1, [("x",1), ("y", 1)])
 
 incog = [("x",1), ("y", 1)]
-
 
 derivate::Monom->Monom
 derivate x = (fst x * snd (head (snd x)), (fst (head (snd x)), snd (head (snd x)) - 1) : findOthervar (fst (head (snd x))) (snd x))
