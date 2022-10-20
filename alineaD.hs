@@ -4,7 +4,7 @@ import AddPoly
 type Coef = Integer
 type Incognit = [(String, Integer)]
 
-type Monom = (Coef, Incognit)
+type Monom = (Coef, Incognit) = (Integer, [(String, Integer)])
 -}
 
 findvar::String-> Incognit -> Incognit
@@ -12,13 +12,33 @@ findvar x = filter (\n->fst n == x)
 
 findvar'::String-> [Monom] -> [Monom]
 findvar' x [] = []
-findvar' x (y:ys) = if findvar x (snd y) /= [] then [y] else findvar' x ys
+findvar' x (y:ys) = if findvar x (snd y) /= [] then [(fst y,findvar x (snd y))] else findvar' x ys
+
+findOthervar::String-> Incognit -> Incognit
+findOthervar x = filter (\n->fst n /= x)
+
+{-
+findOthervar'::String-> [Monom] -> [Monom]
+findOthervar' x [] = []
+findOthervar' x (y:ys) = if findOthervar x (snd y) /= [] then [(fst y,findOthervar x (snd y))] else findOthervar' x ys
+-}
+
 
 y = [(4, [("x", 2)]), (5, [("z", 3)]), (5, [("y", 3)])]
 
+z =[(4, [("xy", 2)])]
+
+x = [(1, [("x", 1)]), (1, [("y", 1)])] -- x + y
+
+xy = [(1, [("x",1), ("y", 1)])] --xy
+
+xy' = (1, [("x",1), ("y", 1)])
+
+incog = [("x",1), ("y", 1)]
+
 
 derivate::Monom->Monom
-derivate x = (fst x * snd (head (snd x)), [(fst (head (snd x)), snd (head (snd x)) - 1)])
+derivate x = (fst x * snd (head (snd x)), (fst (head (snd x)), snd (head (snd x)) - 1) : findOthervar (fst (head (snd x))) (snd x))
 
 derivatePoly::String -> [Monom] -> [Monom]
-derivatePoly x y = [derivate z | z <- findvar' x y]
+derivatePoly x y = [derivate z | z <- y]
