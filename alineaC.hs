@@ -31,13 +31,6 @@ z = [(12, [("x", 4), ("y", 3)]),
 (30, [("t", 2), ("y", 3)]) 
 -}
 
-
-{-- se forem iguais, multiplicam-se os coeficiente, mantem-se a incógnita (primeiro
---}
-
-{-- se forem diferentes, multiplicam-se os coeficientes e adicionam-se a incógnita
---}
-
 multiPolynom :: [Monom] -> [Monom] -> [Monom]
 multiPolynom [] [] = []
 multiPolynom x [] = []
