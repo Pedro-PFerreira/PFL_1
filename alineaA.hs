@@ -1,3 +1,5 @@
+module Normalise where
+
 import AddPoly
 
 {-
@@ -27,8 +29,6 @@ orderPolynomAlphabetic = map (\ x -> (fst x, orderIncognitAlphabetic (snd x)))
 
 orderPolynomIncognitDegree :: [Monom] -> [Monom]
 orderPolynomIncognitDegree = map (\ x -> (fst x, orderIncognitbyDegree (snd x)))
-
-
 orderPolynomDegree :: [Monom] -> [Monom]
 orderPolynomDegree [] = []
 orderPolynomDegree (x:xs) = orderPolynomDegree xs1 ++ [x] ++ orderPolynomDegree xs2
