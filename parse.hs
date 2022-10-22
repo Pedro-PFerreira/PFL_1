@@ -1,4 +1,5 @@
 import Data.List.Split
+import Data.List
 
 import Data.Char
 
@@ -21,6 +22,21 @@ z = "42*z^2"
 
 y = "4*x*y^2"
 
+l = filter  (/= "+") (elimSpaces " " k)
+
+removePlus :: String -> [String]
+removePlus list = filter (/= "+") (elimSpaces " " list)
+
+
+concatMinus' :: [String] -> [String]
+concatMinus' [] = []
+concatMinus' x = if head x == "-" then ("-" ++ head (tail x)) : concatMinus' (tail (tail x)) else head x : concatMinus' (tail x)
+
+extractSignal :: String -> [String]
+extractSignal x = concatMinus' (removePlus x)
+
+
+----
 takeRest :: Char-> String -> String
 takeRest target s = if head s == target then tail s else takeRest target (tail s)
 
@@ -35,12 +51,14 @@ extractCoef :: String -> Integer
 extractCoef x = toInt (getNum x)
 
 ----
-p = "z^2"
+p = "-32*z^2"
 
-t = "x*y^2*z"
+t = "-34*x*y^24*z^(-23)"
 
 getSepString :: String -> [String]
 getSepString = splitOn "*"
+
+p' = "3*z^2*y^2"
 
 extractExp:: String -> String
 extractExp [] = []
@@ -54,6 +72,8 @@ extractVar:: String -> String
 extractVar [] = []
 extractVar x = if head x /= '^' then head x : extractVar (tail x) else []
 
-
 extractMonom :: String -> Monom
-extractMonom x = if not (isDigit (head x)) then (1, extractIncognit (getSepString x)) else (extractCoef x, extractIncognit (getSepString (takeRest '*' x)))
+extractMonom x = if not (isDigit (head x)) && head x /= '-' then (1, extractIncognit (getSepString x)) else (extractCoef x, extractIncognit (getSepString (takeRest '*' x)))
+
+extractPolynom :: String -> [Monom]
+extractPolynom x = [extractMonom y | y <- extractSignal x]
