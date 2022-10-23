@@ -72,15 +72,26 @@ poly16 = "23*z^3*d^4 - 8*d^4*z^3 + 95*z^3*d^4"
 {-
     norm16 = "- 5*z^10 - 7*y^7 + 5*x^3" 
 -}
-
+{-
+Esta função retorna a forma normalizada do polinómio de input.
+-}
 normalizacao :: String -> String
 normalizacao s = finalForm (normalize (extractPolynom s))
 
+{-
+Esta função retorna a adição dos dois polinómios de input.
+-}
 adicao :: String -> String -> String
 adicao s t = finalForm (normalize (addPolynom (normalize (extractPolynom s)) (normalize (extractPolynom t))))
 
+{-
+Esta função retorna a multiplicação dos dois polinómios de input.
+-}
 multiplicacao :: String -> String -> String
 multiplicacao s t = finalForm (normalize (addPolynom' (normalize(multiPolynom (normalize (extractPolynom s)) (normalize (extractPolynom t))))))
 
+{-
+Esta função retorna a derivada do polinómio de input.
+-}
 derivacao :: String -> String -> String
 derivacao c s = finalForm (normalize (derivatePoly c (normalize (extractPolynom s))))

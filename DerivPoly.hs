@@ -12,7 +12,7 @@ findOthervar::String-> Incognit -> Incognit
 findOthervar x = filter (\n->fst n /= x)
 
 derivate::String -> Monom-> Monom
-derivate target x = if snd (findVars target x) == [] then (0, []) else (fst y * snd (head (snd y)), [(fst (head (snd y)), snd (head (snd y)) - 1)] ++ findOthervar target (snd x))  
+derivate target x = if null (snd (findVars target x)) then (0, []) else (fst y * snd (head (snd y)), (fst (head (snd y)), snd (head (snd y)) - 1) : findOthervar target (snd x))
         where y = findVars target x
 
 derivatePoly::String -> [Monom] -> [Monom]

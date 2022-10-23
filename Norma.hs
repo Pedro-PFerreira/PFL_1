@@ -46,11 +46,11 @@ orderPolynomAlphabetic = map (\ x -> (fst x, orderIncognitAlphabetic (snd x)))
 g :: [Monom] -> [Monom]
 g l = orderPolynomAlphabetic (orderPolynombyDegree (map orderMonombyDegree l))
 
--- Removes monómios with coeficient zero
+-- Remove monómios com coeficiente zero
 elimZerosPolynom :: [Monom] -> [Monom]
 elimZerosPolynom = filter (\n -> fst n /= 0)
 
--- Removes incognit and expoent if it is power of 0
+-- Remove incógnitas com expoente ^0
 verifyIncognitExist :: Incognit -> Incognit
 verifyIncognitExist [] = []
 verifyIncognitExist (x:xs) = if snd x == 0 then def ++ verifyIncognitExist xs else x : verifyIncognitExist xs
@@ -60,8 +60,6 @@ elimIncognitPolynom = map (\ x -> (fst x, verifyIncognitExist (snd x)))
 
 normalize :: [Monom] -> [Monom]
 normalize x =  addPolynom' ( g(elimZerosPolynom (elimIncognitPolynom x)))
-
-yi = [(3, [("y", 3), ("x", 2)]), (4, [("z", 3)]), (5, [("y", 4)]), (0, [("y", 5)]), (3, [("z", 0)])]
 
 -- simplifica o polinómio
 addPolynom' :: [Monom] -> [Monom]
