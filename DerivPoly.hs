@@ -1,3 +1,5 @@
+module DerivPoly where
+
 import AddPoly
 
 findvar::String-> Incognit -> Incognit

@@ -1,11 +1,12 @@
+module Rev where
+
 import Data.List.Split
 
 import Data.Char
 
 import Data.List
 
-import AddPoly(Monom, Incognit, Coef)
-
+import AddPoly
 {-
 
 type Coef = Integer
@@ -23,20 +24,23 @@ toString s | s < 0 = "(-" ++ show (s * (-1)) ++ ")"
            | otherwise = show s
 
 joinIncognit :: Incognit -> [String]
-joinIncognit x = [fst y ++ "^" ++ toString(snd y) | y <- x]
+joinIncognit [] = []
+joinIncognit (x:xs) | snd x == 0 = " " : joinIncognit xs
+                    | otherwise = (fst x ++ "^" ++ toString(snd x)) : joinIncognit xs
 
 strIncognit :: [String] -> String
 strIncognit [] = []
 strIncognit (x:xs) | head x == '-' = "(" ++ x ++ ")" ++ strIncognit xs
+                   | head x == ' ' = strIncognit xs
                    | null xs= x
                    | otherwise = x ++ "*" ++ strIncognit xs
 
 joinCoef :: (Integer, String) -> String
-joinCoef x = toStringCoef (fst x) ++ "*" ++ snd x
-
+joinCoef x = if snd x /= "" then toStringCoef (fst x) ++ "*" ++ snd x else toStringCoef (fst x)
+           
 toStringCoef :: Integer -> String
 toStringCoef s | s < 0 = " - " ++ show (s * (-1))
-           | otherwise = " + " ++ show s
+                | otherwise = " + " ++ show s
 
 g = joinCoef (fst l, strIncognit (joinIncognit (snd l)))
 

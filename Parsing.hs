@@ -1,3 +1,5 @@
+module Parsing where
+
 import Data.List.Split
 import Data.List
 
@@ -27,7 +29,6 @@ l = filter  (/= "+") (elimSpaces " " k)
 removePlus :: String -> [String]
 removePlus list = filter (/= "+") (elimSpaces " " list)
 
-
 concatMinus' :: [String] -> [String]
 concatMinus' [] = []
 concatMinus' x = if head x == "-" then ("-" ++ head (tail x)) : concatMinus' (tail (tail x)) else head x : concatMinus' (tail x)
@@ -37,8 +38,10 @@ extractSignal x = concatMinus' (removePlus x)
 
 
 ----
-takeRest :: Char-> String -> String
-takeRest target s = if head s == target then tail s else takeRest target (tail s)
+takeRest :: Char -> String -> String
+takeRest target s | null s = ""
+                  | head s == target = tail s
+                  | otherwise = takeRest target (tail s)
 
 getNum:: String -> String
 getNum [] = []
@@ -56,9 +59,14 @@ p = "-32*z^2"
 t = "-34*x*y^24*z^(-23)"
 
 getSepString :: String -> [String]
-getSepString = splitOn "*"
+getSepString x | x == "" = ["?"]
+               | otherwise = splitOn "*" x
 
 p' = "3*z^2*y^2"
+
+p'' = "7"
+
+def = [("", 0)]
 
 extractExp:: String -> String
 extractExp [] = []
@@ -66,7 +74,8 @@ extractExp x = if head x == '^' then tail x else extractExp (tail x)
 
 extractIncognit :: [String] -> Incognit
 extractIncognit [] = []
-extractIncognit list = if extractExp (head list) == "" then (head list, 1) : extractIncognit (tail list) else (extractVar(head list), toInt (takeRest '^' (head list))) : extractIncognit (tail list)
+extractIncognit list | (head list) == "?" = def ++ extractIncognit (tail list)
+                     | otherwise = (extractVar(head list), toInt (takeRest '^' (head list))) : extractIncognit (tail list)
 
 extractVar:: String -> String
 extractVar [] = []

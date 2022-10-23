@@ -16,26 +16,35 @@ type Monom = (Coef, Incognit)
 
 # Funcionalidades
 
-> **Normalização**
-> > **Ordenação do monómio por ordem alfabética**
-> > Temos 2 funções que lidam com a parte de ordenação do monómio, primeiro começamos por ordenar apenas as incógnitas e depois aplicamos esta função ao mónomio e em seguida o próprio polinómio.
+## Normalização
+### Ordenação do monómio por ordem alfabética
+> Temos 2 funções que lidam com a parte de ordenação do monómio: primeiro começamos por ordenar apenas as incógnitas (através do algoritmo de ordenação quicksort), depois aplicamos esta função ao monómio e em seguida ao próprio polinómio.
 
-> > **Ordenação do polimónio por grau**
-> > Temos 3 funções que lidam com a parte de ordenação do polinómio, primeiro começamos por ordenar as incógnitas por ordem decrescente do expoente, depois aplicamos a função no monómio e em seguida pegamos na primeira incógnita de cada monómio e aplicamos um algoritmo de ordenação.
+### Ordenação do polimónio por grau
+> Temos 3 funções que lidam com a parte de ordenação do polinómio: primeiro começamos por ordenar as incógnitas por ordem decrescente do expoente, depois aplicamos a função ao monómio e em seguida (como temos a incógnita de maior grau no primeiro elemento da lista de incógnitas e expoentes) pegamos na primeira incógnita de cada monómio e aplicamos o mesmo algoritmo de ordenação que utilizamos para as incógnitas (quicksort).
 
-> > **Eliminar zeros do polinómio**
-> > Esta função elimina do polinómio, os monómios que têm coeficiente nulo. 
+### Eliminar zeros do polinómio
+> Esta função elimina do polinómio, os monómios que têm coeficiente nulo. Para implementarmos esta funcionalidade, bastou-nos aplicar a high order function `filter` ao polinómio onde temos como condição o primeiro elemento do monómio ser nulo (uma vez que na nossa representação o primeiro elemento do monómio corresponde ao coeficiente) 
 
-> > **Eliminar incógnitas ^0**
-> > Esta função "apaga" dos monómios as incógnitas que estiverem elevadas a 0. 
+### Eliminar incógnitas ^0
+> Esta função "apaga" dos monómios as incógnitas que estiverem elevadas a 0. Para tal, a nossa implementação foi a seguinte: para cada incógnita do monómio verificamos se o segundo elemento (o expoente, segundo a nossa representação) é 0, se for substituímos o termo dependente do monómio por o valor default (`[("", 0)]`) para não dar conflitos nas operações que podemos efetuar sobre o polinómio, se não for mantém o valor que tinha.
 
-> **Adição**
-> > Esta funcionalidade primeiro verifica se os monómios dos dois polinómios têm incógnitas e os expoentes são iguais para as podermos somar.
-> > Aplica-se esta função a todos os monómios dos polinómios
+## Adição
+> Esta funcionalidade primeiro verifica se os monómios dos dois polinómios têm incógnitas e os expoentes iguais.
+> Se este caso se verificar somamos os termos, se não passamos ao seguinte e fazemos a verificação novamente.
 
-> **Multiplicação**
-> > Esta funcionalidade faz a combinação de todas os monómios e depois aplica a função de soma, uma vez que podem resultar monómios iguais
+## Multiplicação
+> Esta funcionalidade faz a combinação de todos os monómios de um polinómio com o polinómio por que o queremos multiplicar, dando-os como resultado.
+> Temos também uma função que verifica se as incógnitas dos dois monómios que estamos a multiplicar são iguais. Se forem mantemos a incógnita e somamos os expoente, se não adicionamos a incógnita e o expoente novo à lista de incógnitas do monómio resultante.
+> Depois aplicamso a função de soma, uma vez que podem resultar monómios com termos dependentes iguais e portanto o resultado pode ser simplificado.
 
-> > **Derivação**
-> > Esta funcionalidade aceita uma incógnita como argumento e o polinómio que queremos derivar
-> > Primeiro verificamos se a incógnita existe em cada um dos monómios do polinómio, caso isso aconteça multiplicamos o expoente ao coeficiente e subtraímos 1 ao valor do expoente do monómio
+## Derivação
+> Esta funcionalidade aceita uma incógnita como argumento e o polinómio que queremos derivar.
+> Primeiro verificamos se a incógnita existe em cada um dos monómios do polinómio, caso isso aconteça multiplicamos o expoente ao coeficiente e subtraímos 1 ao valor do expoente do monómio. Caso não aconteça mantemos o termo igual.
+> Aplicamos esta função para cada um dos termos do polinómio em questão
+
+## Parsing
+> Para fazer o parsing do polinómio que recebemos em string para a nossa representação interna implementamos várias funções de separação de carateres.
+> Começamos por eliminar os espaços que podem existir entre os termos do polinómio
+> De seguida extraímos o coeficiente e convertemos para Integer (tendo em conta os números negativos) e criamos o tuplo que será cada um dos monómios
+> Depois extraímos a incógnita e criamos dentro de cada tuplo a lista que vai conter os tuplos que correspondem ao termo dependente (incógnita e expoente)
