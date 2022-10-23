@@ -4,8 +4,8 @@ import AddPoly
 
 import Data.List(delete)
 
-xi = [(3, [("y", 3), ("x", 2)]), (4, [("z", 3)]), (5, [("y", 4)])]
 
+def = [("", 0)]
 
 --Order by degree
 orderIncognitbyDegree :: Incognit -> Incognit
@@ -28,8 +28,6 @@ f l = orderPolynombyDegree (map orderMonombyDegree l)
 ----
 
 --- Order aphabetically
-
-def = [("", 0)]
 
 orderIncognitAlphabetic :: Incognit -> Incognit
 orderIncognitAlphabetic [] = []
@@ -61,16 +59,11 @@ elimIncognitPolynom :: [Monom] -> [Monom]
 elimIncognitPolynom = map (\ x -> (fst x, verifyIncognitExist (snd x)))
 
 normalize :: [Monom] -> [Monom]
-normalize x = g (elimZerosPolynom (elimIncognitPolynom x))
+normalize x =  addPolynom' ( g(elimZerosPolynom (elimIncognitPolynom x)))
 
 yi = [(3, [("y", 3), ("x", 2)]), (4, [("z", 3)]), (5, [("y", 4)]), (0, [("y", 5)]), (3, [("z", 0)])]
 
-
-adicaomom :: [Monom]-> [Monom]
-adicaomom [] = []
-adicaomom (x:xs) | snd x == snd (head xs) = (fst x + fst (head xs), snd x) : adicaomom xs
-                 | otherwise = x : adicaomom xs
-
+-- simplifica o polinómio
 addPolynom' :: [Monom] -> [Monom]
 addPolynom' [] = []
 addPolynom' (x:xs) = if findIncognit x xs /= (0, [("", 0)]) then let z = addMonom x (findIncognit x xs)

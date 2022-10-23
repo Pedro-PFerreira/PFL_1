@@ -6,25 +6,11 @@ import Data.List
 import Data.Char
 
 import AddPoly(Monom, Incognit, Coef)
-k = "3*x^2 + 2*y + 5*z + y - 7*y^2 + 4*x*y^2"
 
-
-{-
-type Coef = Integer
-type Incognit = [(String, Integer)]
-
-type Monom = (Coef, Incognit)
-
--}
+def = [("", 0)]
 
 elimSpaces :: String -> String -> [String]
 elimSpaces = splitOn
-
-z = "42*z^2"
-
-y = "4*x*y^2"
-
-l = filter  (/= "+") (elimSpaces " " k)
 
 removePlus :: String -> [String]
 removePlus list = filter (/= "+") (elimSpaces " " list)
@@ -54,19 +40,11 @@ extractCoef :: String -> Integer
 extractCoef x = toInt (getNum x)
 
 ----
-p = "-32*z^2"
-
-t = "-34*x*y^24*z^(-23)"
 
 getSepString :: String -> [String]
 getSepString x | x == "" = ["?"]
                | otherwise = splitOn "*" x
 
-p' = "3*z^2*y^2"
-
-p'' = "7"
-
-def = [("", 0)]
 
 extractExp:: String -> String
 extractExp [] = []
